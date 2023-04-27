@@ -9,7 +9,7 @@ import Foundation
 
 var continueProgram: Bool = true
 
-struct Student {
+struct Student: Equatable {
     var name: String
     var subject: [String : String]?
 }
@@ -35,7 +35,19 @@ func addStudent() {
 }
 
 func removeStudent() {
-    
+    print("삭제할 학생의 이름을 입력해주세요")
+    if let input = readLine() {
+        if students.filter({$0.name == input}).isEmpty {
+            print("\(input) 학생을 찾지 못했습니다.")
+        }else{
+            if let idx = students.firstIndex(of:Student(name: input)) {
+                students.remove(at: idx)
+                print("\(input) 학생을 삭제하였습니다.")
+            }
+        }
+    }else{
+        print("입력이 잘못되었습니다. 다시 확인해주세요.")
+    }
 }
 
 func updateGrade() {
