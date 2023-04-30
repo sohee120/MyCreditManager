@@ -51,7 +51,28 @@ func removeStudent() {
 }
 
 func updateGrade() {
-    
+    print("성적을 추가할 학생의 이름, 과목 이름, 성적(A+, A, F 등)을 띄어쓰기로 구분하여 차례로 작성해주세요.\n입력예) Mickey Swift A+\n만약에 학생의 성적 중 해당 과목이 존재하면 기존 점수가 갱신됩니다.")
+    if let input = readLine()?.components(separatedBy: " "), input.count == 3 {
+        
+        let name = input[0]
+        let subject = input[1]
+        let grade = input[2]
+        
+        if students.filter({$0.name == input[0]}).isEmpty {
+            print("\(name) 학생을 찾지 못했습니다.")
+        }
+        
+        if let studentIdx = students.firstIndex(where:{$0.name == name}) {
+            guard false == students[studentIdx].subject?.isEmpty else{
+                students[studentIdx].subject = [:]
+                students[studentIdx].subject?.updateValue(grade, forKey: subject)
+                print("\(name) 학생의 \(subject)과목이 \(grade)로 추가(변경)되었습니다.")
+                return
+            }
+        }
+    }else{
+        print("입력이 잘못되었습니다. 다시 확인해주세요.")
+    }
 }
 
 func removeGrade() {
