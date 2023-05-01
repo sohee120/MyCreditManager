@@ -17,6 +17,28 @@ struct Student: Equatable {
 var students = [Student]()
 
 func getGrade(grade: String?) -> Double {
+    switch grade {
+        case "A+":
+            return 4.5
+        case "A":
+            return 4.0
+        case "B+":
+            return 3.5
+        case "B":
+            return 3.0
+        case "C+":
+            return 2.5
+        case "C":
+            return 2.0
+        case "D+":
+            return 1.5
+        case "D":
+            return 1.0
+        case "F":
+            return 0
+        default:
+            break
+        }
     return 0
 }
 
@@ -102,7 +124,22 @@ func removeGrade() {
 }
 
 func showAverage() {
-    
+    print("평점을 알고싶은 학생의 이름을 입력해주세요.")
+        if let input = readLine() {
+            if let studentIdx = students.firstIndex(where:{$0.name == input}) {
+                var average = 0.0
+                var count = 0.0
+                students[studentIdx].subject?.forEach({
+                    print("\($0.key): \($0.value)")
+                    average += getGrade(grade: $0.value)
+                    count += 1.0
+                })
+                print("평점 : \(String(format: "%.2f", average / count))")
+            }
+        }else{
+            print("입력이 잘못되었습니다. 다시 확인해주세요.")
+        }
+
 }
 
 while continueProgram {
