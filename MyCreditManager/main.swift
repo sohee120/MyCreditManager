@@ -58,18 +58,21 @@ func updateGrade() {
         let subject = input[1]
         let grade = input[2]
         
-        if students.filter({$0.name == input[0]}).isEmpty {
+        guard students.filter({$0.name == name}).count != 0 else {
             print("\(name) 학생을 찾지 못했습니다.")
+            return
         }
         
-        if let studentIdx = students.firstIndex(where:{$0.name == name}) {
-            guard students[studentIdx].subject != nil else{
-                students[studentIdx].subject = [:]
-                students[studentIdx].subject?.updateValue(grade, forKey: subject)
-                print("\(name) 학생의 \(subject)과목이 \(grade)로 추가(변경)되었습니다.")
-                return
-            }
+        guard let studentIdx = students.firstIndex(where:{$0.name == name}) else { return }
+        
+        guard students[studentIdx].subject != nil else{
+            students[studentIdx].subject = [:]
+            students[studentIdx].subject?.updateValue(grade, forKey: subject)
+            print("\(name) 학생의 \(subject)과목이 \(grade)로 추가(변경)되었습니다.")
+            return
         }
+        students[studentIdx].subject?.updateValue(grade, forKey: subject)
+        print("\(name) 학생의 \(subject)과목이 \(grade)로 추가(변경)되었습니다.")
     }else{
         print("입력이 잘못되었습니다. 다시 확인해주세요.")
     }
@@ -124,6 +127,5 @@ while continueProgram {
     default:
         break
     }
-    
 }
 
