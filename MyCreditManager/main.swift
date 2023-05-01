@@ -63,7 +63,7 @@ func updateGrade() {
         }
         
         if let studentIdx = students.firstIndex(where:{$0.name == name}) {
-            guard false == students[studentIdx].subject?.isEmpty else{
+            guard students[studentIdx].subject != nil else{
                 students[studentIdx].subject = [:]
                 students[studentIdx].subject?.updateValue(grade, forKey: subject)
                 print("\(name) 학생의 \(subject)과목이 \(grade)로 추가(변경)되었습니다.")
@@ -76,7 +76,26 @@ func updateGrade() {
 }
 
 func removeGrade() {
-    
+    print("삭제할 학생의 이름, 과목 이름을 띄어쓰기로 구분하여 차례로 작성해주세요.\n입력예) Mickey Swift")
+    if let input = readLine()?.components(separatedBy: " "), input.count == 2 {
+        
+        let name = input[0]
+        let subject = input[1]
+        
+        if students.filter({$0.name == input[0]}).isEmpty {
+            print("\(name) 학생을 찾지 못했습니다.")
+        }
+        
+        if let studentIdx = students.firstIndex(where:{$0.name == name}) {
+            guard students[studentIdx].subject == nil else{
+                students[studentIdx].subject?[subject] = nil
+                print("\(name) 학생의 \(subject)과목이 삭제되었습니다.")
+                return
+            }
+        }
+    }else{
+        print("입력이 잘못되었습니다. 다시 확인해주세요.")
+    }
 }
 
 func showAverage() {
